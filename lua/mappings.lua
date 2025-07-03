@@ -50,11 +50,35 @@ local function smart_jump(key)
   vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(keys, true, false, true), 'n', true)
 end
 
--- Бинды для всех 4 стрелок с поддержкой count
-map("n", "<Down>", function() smart_jump("j") end)
-map("n", "<Up>", function() smart_jump("k") end)
-map("n", "<Left>", function() smart_jump("h") end)
-map("n", "<Right>", function() smart_jump("l") end)
+-- Бинды для всех 4 стрелок с поддержкой count и скоростью
+map("n", "<Down>", function() 
+  if vim.v.count > 0 then
+    vim.cmd("normal! " .. vim.v.count .. "j")
+  else
+    smart_jump("j")
+  end
+end)
+map("n", "<Up>", function() 
+  if vim.v.count > 0 then
+    vim.cmd("normal! " .. vim.v.count .. "k")
+  else
+    smart_jump("k")
+  end
+end)
+map("n", "<Left>", function() 
+  if vim.v.count > 0 then
+    vim.cmd("normal! " .. vim.v.count .. "h")
+  else
+    smart_jump("h")
+  end
+end)
+map("n", "<Right>", function() 
+  if vim.v.count > 0 then
+    vim.cmd("normal! " .. vim.v.count .. "l")
+  else
+    smart_jump("l")
+  end
+end)
 
 -- Keymaps for splits (дополнительные к NvChad)
 map("n", "<F4>", ":split<CR>", { desc = "Split window horizontally" })
