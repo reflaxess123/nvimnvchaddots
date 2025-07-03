@@ -168,6 +168,25 @@ return {
     },
   },
 
+  -- Claude Code плагин
+  {
+    "coder/claudecode.nvim",
+    dependencies = { "folke/snacks.nvim" },
+    lazy = false,
+    config = function()
+      require("claudecode").setup({
+        terminal = {
+          split_side = "right",
+        }
+      })
+    end,
+    keys = {
+      { "<leader>ac", "<cmd>ClaudeCode<cr>", desc = "Toggle Claude" },
+      { "<leader>af", "<cmd>ClaudeCodeFocus<cr>", desc = "Focus Claude" },
+      { "<leader>as", "<cmd>ClaudeCodeSend<cr>", mode = "v", desc = "Send to Claude" }
+    }
+  },
+
   -- test new blink
   -- { import = "nvchad.blink.lazyspec" },
 
