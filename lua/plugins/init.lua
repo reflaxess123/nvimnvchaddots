@@ -58,35 +58,40 @@ return {
     end,
   },
 
-  -- Hydra plugin
+
+  -- Плагин уведомлений
   {
-    "nvimtools/hydra.nvim",
-    dependencies = { "nvim-lua/plenary.nvim" },
+    "rcarriga/nvim-notify",
+    lazy = false,
+    priority = 1000,
     config = function()
-      local Hydra = require("hydra")
-      
-      -- Window management hydra
-      Hydra({
-        name = "Windows",
-        mode = "n",
-        body = "<C-w>",
-        heads = {
-          { "h", "<C-w>h" },
-          { "j", "<C-w>j" },
-          { "k", "<C-w>k" },
-          { "l", "<C-w>l" },
-          { "v", "<C-w>v" },
-          { "s", "<C-w>s" },
-          { "c", "<C-w>c" },
-          { "=", "<C-w>=" },
-          { "+", "<C-w>+" },
-          { "-", "<C-w>-" },
-          { "<", "<C-w><" },
-          { ">", "<C-w>>" },
-          { "q", nil, { exit = true } },
-          { "<Esc>", nil, { exit = true } },
+      local notify = require("notify")
+
+      notify.setup({
+        background_colour = "NotifyBackground",
+        fps = 30,
+        icons = {
+          DEBUG = "",
+          ERROR = "",
+          INFO = "",
+          TRACE = "✎",
+          WARN = ""
         },
+        level = 2,
+        minimum_width = 50,
+        render = "default",
+        stages = "fade_in_slide_out",
+        timeout = 3000,
+        top_down = true
       })
+
+      -- Заменяем стандартную функцию notify
+      vim.notify = notify
+
+      -- Тестовое уведомление при загрузке
+      vim.defer_fn(function()
+        vim.notify("nvim-notify загружен!", "info")
+      end, 1000)
     end,
   },
 
