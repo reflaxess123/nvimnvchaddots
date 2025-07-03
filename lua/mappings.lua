@@ -181,6 +181,21 @@ map("n", "<leader>nh", function()
   end
 end, { desc = "Show notification history" })
 
+-- Терминал кеймапы
+map("t", "<C-x>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
+map("t", "<C-q>", "<C-\\><C-n>:q<CR>", { desc = "Close terminal" })
+map("t", "<Esc>", "<C-\\><C-n>:q<CR>", { desc = "Close floating terminal" })
+map("t", "<C-h>", "<C-\\><C-n><C-w>h", { desc = "Go to left window from terminal" })
+map("t", "<C-j>", "<C-\\><C-n><C-w>j", { desc = "Go to down window from terminal" })
+map("t", "<C-k>", "<C-\\><C-n><C-w>k", { desc = "Go to up window from terminal" })
+map("t", "<C-l>", "<C-\\><C-n><C-w>l", { desc = "Go to right window from terminal" })
+
+-- Управление терминалами через Telescope
+map("n", "<leader>td", function()
+  vim.cmd("Telescope terms")
+  -- В окне Telescope используйте Ctrl+X чтобы закрыть терминал
+end, { desc = "Delete/manage terminals" })
+
 -- Быстрый выход на двойной Esc
 map("n", "<Esc><Esc>", ":qa!<CR>", { desc = "Quick force exit Neovim" })
 

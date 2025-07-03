@@ -149,6 +149,25 @@ return {
     end,
   },
 
+  -- LazyGit плагин
+  {
+    "kdheepak/lazygit.nvim",
+    lazy = false,
+    cmd = {
+      "LazyGit",
+      "LazyGitConfig",
+      "LazyGitCurrentFile",
+      "LazyGitFilter",
+      "LazyGitFilterCurrentFile",
+    },
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+    },
+    keys = {
+      { "<leader>gs", "<cmd>LazyGit<cr>", desc = "LazyGit" },
+    },
+  },
+
   -- test new blink
   -- { import = "nvchad.blink.lazyspec" },
 
