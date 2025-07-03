@@ -225,6 +225,24 @@ map("n", "<C-d>", function()
   end
 end, { desc = "Copy diagnostic info to clipboard" })
 
+map("v", "<C-y>", function()
+  -- Сначала копируем выделенный текст стандартным способом
+  vim.cmd('normal! "zy')
+  local selected_text = vim.fn.getreg('z')
+  
+  -- Получаем информацию о выделении
+  local start_line = vim.fn.line("'<")
+  local end_line = vim.fn.line("'>")
+  local current_file = vim.api.nvim_buf_get_name(0)
+  
+  -- Формируем текст с метаинформацией
+  local copy_text = string.format("File: %s\nLines %d-%d:\n%s",
+    current_file, start_line, end_line, selected_text)
+  
+  vim.fn.setreg('+', copy_text)
+  vim.notify("Selected text with file info copied to clipboard")
+end, { desc = "Copy selected text with file path and line numbers" })
+
 
 -- История уведомлений
 map("n", "<leader>nh", function()
