@@ -56,15 +56,29 @@ map("n", "<Up>", function() smart_jump("k") end)
 map("n", "<Left>", function() smart_jump("h") end)
 map("n", "<Right>", function() smart_jump("l") end)
 
--- Keymaps for splits
+-- Keymaps for splits (дополнительные к NvChad)
 map("n", "<F4>", ":split<CR>", { desc = "Split window horizontally" })
 map("n", "<F5>", ":vsplit<CR>", { desc = "Split window vertically" })
+map("n", "<leader>sv", ":split<CR>", { desc = "Split window horizontally" })
+map("n", "<leader>sh", ":vsplit<CR>", { desc = "Split window vertically" })
 
 -- Navigation between splits
 map("n", "<C-h>", "<C-w>h", { desc = "Go to left window" })
 map("n", "<C-j>", "<C-w>j", { desc = "Go to down window" })
 map("n", "<C-k>", "<C-w>k", { desc = "Go to up window" })
 map("n", "<C-l>", "<C-w>l", { desc = "Go to right window" })
+
+-- Resize splits
+map("n", "<C-S-Up>", "<C-w>+", { desc = "Increase window height" })
+map("n", "<C-S-Down>", "<C-w>-", { desc = "Decrease window height" })
+map("n", "<C-S-Left>", "<C-w>>", { desc = "Increase window width" })
+map("n", "<C-S-Right>", "<C-w><", { desc = "Decrease window width" })
+
+-- Альтернативные кеймапы для ресайза (если Ctrl+Shift не работает)
+map("n", "<leader>=", "<C-w>+", { desc = "Increase window height" })
+map("n", "<leader>-", "<C-w>-", { desc = "Decrease window height" })
+map("n", "<leader>.", "<C-w>>", { desc = "Increase window width" })
+map("n", "<leader>,", "<C-w><", { desc = "Decrease window width" })
 
 -- Переключение между буферами
 map("n", "<Tab>", ":bnext<CR>", { desc = "Next buffer" })
@@ -150,6 +164,22 @@ map("n", "<C-d>", function()
   end
 end, { desc = "Copy diagnostic info to clipboard" })
 
+
+-- История уведомлений
+map("n", "<leader>nh", function()
+  -- Пробуем разные способы
+  local ok1, _ = pcall(vim.cmd, "Notifications")
+  if not ok1 then
+    local ok2, _ = pcall(function() require("notify").history() end)
+    if not ok2 then
+      -- Через Telescope если есть
+      local ok3, _ = pcall(vim.cmd, "Telescope notify")
+      if not ok3 then
+        vim.notify("История уведомлений недоступна", "warn")
+      end
+    end
+  end
+end, { desc = "Show notification history" })
 
 -- Быстрый выход на двойной Esc
 map("n", "<Esc><Esc>", ":qa!<CR>", { desc = "Quick force exit Neovim" })
