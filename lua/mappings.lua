@@ -143,7 +143,44 @@ end
 map("n", "<F7>", close_buffer, { desc = "Close current buffer" })
 
 -- Diagnostic keymaps
+map("n", "<leader>d", vim.diagnostic.open_float, { desc = "Show diagnostic message", nowait = true })
 map("n", "<F8>", vim.diagnostic.open_float, { desc = "Show diagnostic message", nowait = true })
+
+-- Toggle diagnostics visibility
+vim.g.diagnostics_visible = true
+local function toggle_diagnostics()
+  if vim.g.diagnostics_visible then
+    vim.g.diagnostics_visible = false
+    vim.diagnostic.config({
+      virtual_text = false,
+      signs = false,
+      underline = false,
+      update_in_insert = false,
+    })
+    vim.diagnostic.hide()
+    vim.notify("Diagnostics hidden", "info")
+  else
+    vim.g.diagnostics_visible = true
+    vim.diagnostic.config({
+      virtual_text = false, -- Keep your preference
+      signs = true,
+      underline = true,
+      update_in_insert = false,
+      float = {
+        focusable = false,
+        style = "minimal",
+        border = "rounded",
+        source = "always",
+        header = "",
+        prefix = "",
+      },
+    })
+    vim.diagnostic.show()
+    vim.notify("Diagnostics shown", "info")
+  end
+end
+
+map("n", "<leader>tt", toggle_diagnostics, { desc = "Toggle diagnostics visibility" })
 
 map("n", "<C-d>", function()
   local cursor_pos = vim.api.nvim_win_get_cursor(0)

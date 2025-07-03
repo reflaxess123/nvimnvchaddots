@@ -6,7 +6,7 @@
 local M = {}
 
 M.base46 = {
-  theme = "bearded-arc",
+  theme = "github_dark",
   transparency = true,
   -- hl_override = {
   -- 	Comment = { italic = true },
