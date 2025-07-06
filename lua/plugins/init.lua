@@ -143,9 +143,9 @@ return {
       vim.notify = notify
 
       -- Тестовое уведомление при загрузке
-      vim.defer_fn(function()
-        vim.notify("nvim-notify загружен!", "info")
-      end, 1000)
+      -- vim.defer_fn(function()
+      --   vim.notify("nvim-notify загружен!", "info")
+      -- end, 1000)
     end,
   },
 
@@ -185,6 +185,37 @@ return {
       { "<leader>af", "<cmd>ClaudeCodeFocus<cr>", desc = "Focus Claude" },
       { "<leader>as", "<cmd>ClaudeCodeSend<cr>", mode = "v", desc = "Send to Claude" }
     }
+  },
+
+  -- Command line autocompletion
+  {
+    "gelguy/wilder.nvim",
+    event = "CmdlineEnter",
+    dependencies = {"romgrk/fzy-lua-native"},
+    config = function()
+      local wilder = require('wilder')
+      wilder.setup({modes = {':', '/', '?'}})
+      
+      wilder.set_option('renderer', wilder.popupmenu_renderer({
+        highlighter = wilder.basic_highlighter(),
+        left = {' ', wilder.popupmenu_devicons()},
+        right = {' ', wilder.popupmenu_scrollbar()},
+      }))
+      
+      wilder.set_option('pipeline', {
+        wilder.branch(
+          wilder.cmdline_pipeline({
+            fuzzy = 1,
+            set_pcre2_pattern = 1,
+          }),
+          wilder.search_pipeline(),
+          {
+            wilder.check(function(_, x) return x == '' end),
+            wilder.history(),
+          }
+        ),
+      })
+    end,
   },
 
   -- test new blink
