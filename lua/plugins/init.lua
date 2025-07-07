@@ -57,63 +57,6 @@ return {
       })
     end,
   },
-
-  -- Hydra для управления окнами
-  {
-    "nvimtools/hydra.nvim",
-    lazy = false,
-    dependencies = { "nvim-lua/plenary.nvim" },
-    config = function()
-      local Hydra = require("hydra")
-      
-      -- Window resize and management hydra
-      Hydra({
-        name = "Windows",
-        mode = "n",
-        body = "<leader>ws",
-        heads = {
-          -- Navigation
-          { "h", "<C-w>h", { desc = "Go left" } },
-          { "j", "<C-w>j", { desc = "Go down" } },
-          { "k", "<C-w>k", { desc = "Go up" } },
-          { "l", "<C-w>l", { desc = "Go right" } },
-          
-          -- Resize
-          { "<Up>", "<C-w>+", { desc = "Increase height" } },
-          { "<Down>", "<C-w>-", { desc = "Decrease height" } },
-          { "<Left>", "<C-w>>", { desc = "Increase width" } },
-          { "<Right>", "<C-w><", { desc = "Decrease width" } },
-          
-          -- Split
-          { "s", "<C-w>s", { desc = "Split horizontal" } },
-          { "v", "<C-w>v", { desc = "Split vertical" } },
-          
-          -- Close
-          { "c", "<C-w>c", { desc = "Close window" } },
-          { "o", "<C-w>o", { desc = "Close others" } },
-          
-          -- Equal size
-          { "=", "<C-w>=", { desc = "Equal size" } },
-          
-          -- Exit
-          { "q", nil, { exit = true, desc = "Quit" } },
-          { "<Esc>", nil, { exit = true, desc = "Quit" } },
-        },
-        config = {
-          hint = {
-            position = "bottom",
-            float_opts = {
-              border = "rounded",
-            },
-          },
-        },
-      })
-      
-      
-    end,
-  },
-
-  -- Плагин уведомлений
   {
     "rcarriga/nvim-notify",
     lazy = false,
@@ -141,11 +84,6 @@ return {
 
       -- Заменяем стандартную функцию notify
       vim.notify = notify
-
-      -- Тестовое уведомление при загрузке
-      -- vim.defer_fn(function()
-      --   vim.notify("nvim-notify загружен!", "info")
-      -- end, 1000)
     end,
   },
 
@@ -167,41 +105,20 @@ return {
       { "<leader>gs", "<cmd>LazyGit<cr>", desc = "LazyGit" },
     },
   },
-
-  -- Claude Code плагин
-  {
-    "coder/claudecode.nvim",
-    dependencies = { "folke/snacks.nvim" },
-    lazy = false,
-    config = function()
-      require("claudecode").setup({
-        terminal = {
-          split_side = "right",
-        }
-      })
-    end,
-    keys = {
-      { "<leader>ac", "<cmd>ClaudeCode<cr>", desc = "Toggle Claude" },
-      { "<leader>af", "<cmd>ClaudeCodeFocus<cr>", desc = "Focus Claude" },
-      { "<leader>as", "<cmd>ClaudeCodeSend<cr>", mode = "v", desc = "Send to Claude" }
-    }
-  },
-
-  -- Command line autocompletion
   {
     "gelguy/wilder.nvim",
     event = "CmdlineEnter",
-    dependencies = {"romgrk/fzy-lua-native"},
+    dependencies = { "romgrk/fzy-lua-native" },
     config = function()
       local wilder = require('wilder')
-      wilder.setup({modes = {':', '/', '?'}})
-      
+      wilder.setup({ modes = { ':', '/', '?' } })
+
       wilder.set_option('renderer', wilder.popupmenu_renderer({
         highlighter = wilder.basic_highlighter(),
-        left = {' ', wilder.popupmenu_devicons()},
-        right = {' ', wilder.popupmenu_scrollbar()},
+        left = { ' ', wilder.popupmenu_devicons() },
+        right = { ' ', wilder.popupmenu_scrollbar() },
       }))
-      
+
       wilder.set_option('pipeline', {
         wilder.branch(
           wilder.cmdline_pipeline({
@@ -217,17 +134,4 @@ return {
       })
     end,
   },
-
-  -- test new blink
-  -- { import = "nvchad.blink.lazyspec" },
-
-  -- {
-  -- 	"nvim-treesitter/nvim-treesitter",
-  -- 	opts = {
-  -- 		ensure_installed = {
-  -- 			"vim", "lua", "vimdoc",
-  --      "html", "css"
-  -- 		},
-  -- 	},
-  -- },
 }

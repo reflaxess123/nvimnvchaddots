@@ -26,6 +26,11 @@ map("n", "<C-s>", ":w<CR>", { desc = "Save file" })
 map("i", "<C-s>", "<Esc>:w<CR>i", { desc = "Save file" })
 
 
+vim.keymap.set("n", "<A-l>", "<C-w><")
+vim.keymap.set("n", "<A-k>", "<C-w>+")
+vim.keymap.set("n", "<A-j>", "<C-w>-")
+vim.keymap.set("n", "<A-h>", "<C-w>>")
+
 -- Форматирование вручную
 map("n", "<F3>", function()
   vim.lsp.buf.format({ async = true })
@@ -51,28 +56,28 @@ local function smart_jump(key)
 end
 
 -- Бинды для всех 4 стрелок с поддержкой count и скоростью
-map("n", "<Down>", function() 
+map("n", "<Down>", function()
   if vim.v.count > 0 then
     vim.cmd("normal! " .. vim.v.count .. "j")
   else
     smart_jump("j")
   end
 end)
-map("n", "<Up>", function() 
+map("n", "<Up>", function()
   if vim.v.count > 0 then
     vim.cmd("normal! " .. vim.v.count .. "k")
   else
     smart_jump("k")
   end
 end)
-map("n", "<Left>", function() 
+map("n", "<Left>", function()
   if vim.v.count > 0 then
     vim.cmd("normal! " .. vim.v.count .. "h")
   else
     smart_jump("h")
   end
 end)
-map("n", "<Right>", function() 
+map("n", "<Right>", function()
   if vim.v.count > 0 then
     vim.cmd("normal! " .. vim.v.count .. "l")
   else
@@ -229,16 +234,16 @@ map("v", "<C-y>", function()
   -- Сначала копируем выделенный текст стандартным способом
   vim.cmd('normal! "zy')
   local selected_text = vim.fn.getreg('z')
-  
+
   -- Получаем информацию о выделении
   local start_line = vim.fn.line("'<")
   local end_line = vim.fn.line("'>")
   local current_file = vim.api.nvim_buf_get_name(0)
-  
+
   -- Формируем текст с метаинформацией
   local copy_text = string.format("File: %s\nLines %d-%d:\n%s",
     current_file, start_line, end_line, selected_text)
-  
+
   vim.fn.setreg('+', copy_text)
   vim.notify("Selected text with file info copied to clipboard")
 end, { desc = "Copy selected text with file path and line numbers" })
